@@ -1,10 +1,28 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-function App() {
-  return (
-   <div>hello</div>
-  );
+const userLogin = (pyaload) => ({type: "LOG_IN", pyaload})
+
+
+
+export class App extends Component {
+
+  render() {
+    return (
+      <div>
+        Plesase sine in
+        <input value={'enter username'} onChange={{}}  ></input>
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = {
+  userLogin
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
