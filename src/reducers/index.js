@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux'
-import authRedusser from './authRedusser'
+import { mathReducer } from './reducer'
+import { getData } from './getData'
+import {checkLogIn} from './checkLogIn'
 
-export const allReducers = combineReducers({authRedusser})
+export const Reducers = combineReducers({mathReducer, getData, checkLogIn})
