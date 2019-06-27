@@ -35,25 +35,22 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 */
 
+import React, { Component } from "react";
+import NavBar from "./conteiners/navBar/NavBar";
+import {BrowserRouter as Router, Route , Switch} from "react-router-dom";
+import Dashboard from "./conteiners/projects/DashBoard";
 
-import React from 'react'
-import { Navbar } from './conteiners/navBar/Navbar';
-import { Route , Switch } from 'react-router-dom'
-import SignUp from './conteiners/signUp/SignUp';
-import SignIn from './conteiners/signIn/SignIn';
-
-
-
-export default function App() {
-  return (
-    <>
-    <Switch>
-    <Route  exact  path='/'  component={Navbar}/>
-    <Route  path='/sign_up'  component={SignUp}/>
-    <Route  path='/sign_in'  component={SignIn}/>
-
-
-    </Switch>
-    </>
-  )
+export default class App extends Component {
+	render() {
+		return (
+      <Router>
+			<div className='app'>
+				<NavBar />
+				<Switch>
+					<Route exact path='/' component={Dashboard} />
+				</Switch>
+			</div>
+      </Router>
+		);
+	}
 }

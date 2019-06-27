@@ -9,6 +9,6 @@ export const checkLogIn=  (state = initialState, { type, payload }) => {
 		return { ...state,  logedIn: payload}
 
 	default:
-		return {...state}
+		return state
 	}
 }

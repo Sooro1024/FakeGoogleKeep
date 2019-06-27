@@ -7,5 +7,5 @@ export const mathReducer = (state = { number: "12" }, action) => {
 		default:
 			break;
 	}
-	return {...state};
+	return state;
 };
