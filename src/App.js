@@ -36,21 +36,42 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 */
 
 import React, { Component } from "react";
-import NavBar from "./conteiners/navBar/NavBar";
-import {BrowserRouter as Router, Route , Switch} from "react-router-dom";
+import NavBar from "./conteiners/navBar/Navbar";
+import {Route , Switch ,Link} from "react-router-dom";
 import Dashboard from "./conteiners/projects/DashBoard";
+import { SignIn } from "./conteiners/signIn/SignIn";
+import { SignUp } from "./conteiners/signUp/SignUp";
+import { connect } from 'react-redux'
 
-export default class App extends Component {
+ class App extends Component {
 	render() {
 		return (
-      <Router>
-			<div className='app'>
-				<NavBar />
-				<Switch>
-					<Route exact path='/' component={Dashboard} />
-				</Switch>
-			</div>
-      </Router>
+			<>
+				<div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">signIn</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+          <li>
+            <Link to="/nav">Topasdics</Link>
+          </li>
+        </ul>
+
+        <hr />
+        <Route path='/nav' component={NavBar} />
+        <Route exact path="/" component={Dashboard} />
+        <Route path="/about" component={SignIn} />
+        <Route path="/topics" component={SignUp} />
+      </div>
+			</>
 		);
 	}
 }
+
+export default connect()(App) 
