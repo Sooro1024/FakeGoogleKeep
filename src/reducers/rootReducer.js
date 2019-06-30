@@ -1,15 +1,13 @@
-import { combineReducers } from "redux";
-import { mathReducer } from "./reducer";
-import { getData } from "./getData";
-import { checkLogIn } from "./checkLogIn";
-import { userDataRed } from "./userDataRed";
-import { connectRouter } from 'connected-react-router'
+import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
+import { firebaseReducer } from 'react-redux-firebase';
+import { firestoreReducer } from 'redux-firestore';
+import { authReducer } from './authReducer';
 
-
-export const Reducers = (history) => combineReducers({
-	router: connectRouter(history),
-	mathReducer,
-	getData,
-	checkLogIn,
-	userDataRed
-});
+export const Reducers = history =>
+	combineReducers({
+		router: connectRouter(history),
+		authReducer,
+		firebase: firebaseReducer,
+		firestore: firestoreReducer
+	});
