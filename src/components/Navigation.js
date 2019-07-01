@@ -1,44 +1,50 @@
-import React from 'react';
-import { AppBar, Typography, Toolbar } from '@material-ui/core';
-import SignInLinks from './SignInLinks';
-import SignOutLinks from './SignOutLinks';
-import { Route, Link, Switch } from 'react-router-dom';
-import Havayi1 from './Havayi1';
-import Havayi2 from './Havayi2';
-import HOCPrivateRoute from '../conteiners/HOCPrivateRoute';
-import Welcome from './Welcome';
-import { connect } from 'react-redux';
-import SignIn from './SignIn';
+import React from "react";
+import { AppBar, Typography, Toolbar } from "@material-ui/core";
+import { Route, Link, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import SignInLinks from "./SignInLinks";
+import SignOutLinks from "./SignOutLinks";
+import Havayi2 from "./Havayi2";
+import HOCPrivateRoute from "../conteiners/HOCPrivateRoute";
+import Welcome from "./Welcome";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
-const Navigation = ({ push }) => {
-	return (
-		<>
-			<AppBar position='fixed'>
-				<Toolbar>
-					<Typography>
-						<Link to='/'>Fake Trello</Link>
-					</Typography>
-					<SignInLinks />
-					<SignOutLinks />
-				</Toolbar>
-			</AppBar>
-			<Switch>
-				<Route exact path='/' component={Welcome} />
-				<Route path='/sign_in' component={SignIn} />
-				<HOCPrivateRoute path='/new_project' component={Havayi2} />
-				<HOCPrivateRoute path='/new_project' component={Havayi2} />
-				<HOCPrivateRoute path='/new_project' component={Havayi2} />
-				<HOCPrivateRoute path='/new_project' component={Havayi2} />
-			</Switch>
-		</>
-	);
+const Navigation = ({ auth }) => {
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Typography>
+            <Link to="/">Fake Trello</Link>
+          </Typography>
+          {auth && <SignInLinks />}
+          {!auth && <SignOutLinks />}
+        </Toolbar>
+      </AppBar>
+      <div style={{ marginTop: "80px" }}>
+        <Switch>
+          <Route exact path="/" component={Welcome} />
+          <Route path="/sign_in" component={SignIn} />
+          <Route path="/sign_up" component={SignUp} />
+          <HOCPrivateRoute path="/home" component={Havayi2} />
+          <HOCPrivateRoute path="/new_project" component={Havayi2} />
+          <HOCPrivateRoute path="/new_project" component={Havayi2} />
+          <HOCPrivateRoute path="/new_project" component={Havayi2} />
+        </Switch>
+      </div>
+    </>
+  );
 };
 
 const mapDispatchToProps = {
-	// push
+  // push
 };
+const mapStateToProps = state => ({
+  auth: state.authReducer.auth
+});
 
 export default connect(
-	null,
-	mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Navigation);
