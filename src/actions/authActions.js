@@ -1,9 +1,12 @@
+import { push } from "connected-react-router";
+
 export const SignInAction = (payload, firebase) => {
   return dispatch => {
     firebase
       .auth()
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then(() => dispatch({ type: "SIGN_IN_SUCCESS" }))
+      .then(() => dispatch(push("/home")))
       .catch(error => dispatch({ type: "SIGN_IN_FAILED", payload: error }));
   };
 };
@@ -39,6 +42,7 @@ export const SignUpAction = (
         lastName: payload.lastName
       });
     dispatch({ type: "SIGN_UP_SUCCESS" });
+    dispatch(push("/home"));
   } catch (error) {
     dispatch({ type: "SIGN_UP_FAILED", payload: error });
   }

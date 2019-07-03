@@ -4,16 +4,14 @@ import { connect } from "react-redux";
 import { TextField, Typography, Button, Avatar } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { withFirebase } from "react-redux-firebase";
-import { push as pushRoute } from "connected-react-router";
 import { SignInAction } from "../actions/authActions";
 
-const SignInComp = ({ signIn, authError, firebase, push, auth }) => {
+const SignInComp = ({ signIn, authError, firebase }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   function handleChange(ev, type) {
     return type === "email" ? setEmail(ev) : setPassword(ev);
   }
-
   function _onSubmit(e) {
     e.preventDefault();
     signIn(
@@ -71,7 +69,6 @@ const SignInComp = ({ signIn, authError, firebase, push, auth }) => {
       {authError !== null ? (
         <p style={{ color: "red" }}>{authError.message}</p>
       ) : null}
-      {auth ? push() : null}
     </div>
   );
 };
@@ -82,9 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signIn: (credential, firebase) =>
-    dispatch(SignInAction(credential, firebase)),
-  push: () => dispatch(pushRoute("/home"))
+  signIn: (credential, firebase) => dispatch(SignInAction(credential, firebase))
 });
 
 export default compose(

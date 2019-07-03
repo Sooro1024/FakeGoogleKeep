@@ -9,6 +9,7 @@ import HOCPrivateRoute from "../conteiners/HOCPrivateRoute";
 import Welcome from "./Welcome";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import Deskboards from "../conteiners/Deskboards";
 
 const Navigation = ({ auth }) => {
   return (
@@ -27,7 +28,7 @@ const Navigation = ({ auth }) => {
           <Route exact path="/" component={Welcome} />
           <Route path="/sign_in" component={SignIn} />
           <Route path="/sign_up" component={SignUp} />
-          <HOCPrivateRoute path="/home" component={Havayi2} />
+          <HOCPrivateRoute path="/home" component={Deskboards} />
           <HOCPrivateRoute path="/new_project" component={Havayi2} />
           <HOCPrivateRoute path="/new_project" component={Havayi2} />
           <HOCPrivateRoute path="/new_project" component={Havayi2} />

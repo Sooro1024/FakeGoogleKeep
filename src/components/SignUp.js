@@ -3,10 +3,9 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { TextField, Typography, Button } from "@material-ui/core";
 import { withFirebase, withFirestore } from "react-redux-firebase";
-import { push as pushRouth } from "connected-react-router";
 import { SignUpAction } from "../actions/authActions";
 
-const SignUpComp = ({ signUp, authError, firebase, firestore, auth, push }) => {
+const SignUpComp = ({ signUp, authError, firebase, firestore }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -120,7 +119,6 @@ const SignUpComp = ({ signUp, authError, firebase, firestore, auth, push }) => {
             fullWidth
             key={el.type}
             label={el.type}
-            autoFocus
             value={el.value}
             onChange={({ target: { value } }) => {
               handleChange(value, el.type);
@@ -135,7 +133,6 @@ const SignUpComp = ({ signUp, authError, firebase, firestore, auth, push }) => {
       {authError !== null ? (
         <p style={{ color: "red" }}>{authError.message}</p>
       ) : null}
-      {auth ? push() : null}
     </div>
   );
 };
@@ -147,8 +144,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   signUp: (credential, firebase, firestore) =>
-    dispatch(SignUpAction(credential, firebase, firestore)),
-  push: () => dispatch(pushRouth("/home"))
+    dispatch(SignUpAction(credential, firebase, firestore))
 });
 
 export default compose(
