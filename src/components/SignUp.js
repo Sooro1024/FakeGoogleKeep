@@ -54,6 +54,7 @@ const SignUpComp = ({ signUp, authError, firebase, firestore }) => {
         firestore
       );
     } else {
+      // eslint-disable-next-line no-alert
       alert("Confirm password dont match to password!!!");
       setPassword("");
       setPassword2("");

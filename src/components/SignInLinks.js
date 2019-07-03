@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
 import { Button, IconButton, Avatar } from "@material-ui/core";
 import { push as pushRouth } from "connected-react-router";
 import { withFirebase } from "react-redux-firebase";
 import { SignOutAction } from "../actions/authActions";
-import { compose } from "../../../../../Library/Caches/typescript/3.5/node_modules/redux";
 
 const SignInLinks = ({ push, signOut, firebase }) => {
   return (

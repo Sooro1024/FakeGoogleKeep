@@ -26,7 +26,11 @@
 
 // export default addNewDeskAction;
 
-const addNewDeskAction = (payload, firestore, firebase) => async dispatch => {
+export const addNewDeskAction = (
+  payload,
+  firestore,
+  firebase
+) => async dispatch => {
   try {
     const user = await firebase.auth().currentUser;
     await firestore
@@ -43,4 +47,26 @@ const addNewDeskAction = (payload, firestore, firebase) => async dispatch => {
   }
 };
 
-export default addNewDeskAction;
+export const deliteDeskAction = (firestore, uid, key) => async dispatch => {
+  await firestore
+    .collection("users")
+    .doc(uid)
+    .collection("desksCollection")
+    .doc(key)
+    .delete();
+  dispatch({ type: "DESK_ARE_DELETED" });
+};
+
+export const getDeskboardsAction = (firestore, uid) => {
+  return async dispatch => {
+    const data = await firestore
+      .collection("users")
+      .doc(uid)
+      .collection("desksCollection")
+      .get();
+    const dat = data.docs.map(doc => {
+      return { values: doc.data(), keys: doc.id };
+    });
+    dispatch({ type: "DESKS_ARE_GETED", payload: dat });
+  };
+};

@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { withFirebase, withFirestore } from "react-redux-firebase";
 import { compose } from "redux";
-import addNewDeskAction from "../actions/addNewDeskAction";
+import { addNewDeskAction } from "../actions/deskAction";
 
 const CreateNewDesk = ({ firestore, addNewDesk, firebase }) => {
   const [dialIsOpen, setDialog] = useState(false);

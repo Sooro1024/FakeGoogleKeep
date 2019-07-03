@@ -11,7 +11,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Deskboards from "../conteiners/Deskboards";
 
-const Navigation = ({ auth }) => {
+const Navigation = ({ auth, uid }) => {
   return (
     <>
       <AppBar position="fixed">
@@ -42,7 +42,8 @@ const mapDispatchToProps = {
   // push
 };
 const mapStateToProps = state => ({
-  auth: state.authReducer.auth
+  auth: state.authReducer.auth,
+  uid: state.firebase.auth.uid
 });
 
 export default connect(
