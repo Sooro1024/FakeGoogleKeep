@@ -5,7 +5,7 @@ export const SignInAction = (payload, firebase) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(payload.email, payload.password)
-      .then(() => dispatch({ type: "SIGN_IN_SUCCESS" }))
+      .then(data => dispatch({ type: "SIGN_IN_SUCCESS", payload: data.user }))
       .then(() => dispatch(push("/home")))
       .catch(error => dispatch({ type: "SIGN_IN_FAILED", payload: error }));
   };
@@ -17,6 +17,7 @@ export const SignOutAction = (payload, firebase) => {
       .auth()
       .signOut()
       .then(() => dispatch({ type: "SIGN_OUT_SUCCESS" }))
+      .then(() => dispatch(push("/")))
       .catch(error => dispatch({ type: "SIGN_OUT_FAILED", payload: error }));
   };
 };
@@ -41,7 +42,7 @@ export const SignUpAction = (
         firstName: payload.firstName,
         lastName: payload.lastName
       });
-    dispatch({ type: "SIGN_UP_SUCCESS" });
+    dispatch({ type: "SIGN_UP_SUCCESS", payload: user });
     dispatch(push("/home"));
   } catch (error) {
     dispatch({ type: "SIGN_UP_FAILED", payload: error });

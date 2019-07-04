@@ -4,20 +4,21 @@ import { Route, Link, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import SignInLinks from "./SignInLinks";
 import SignOutLinks from "./SignOutLinks";
-import Havayi2 from "./Havayi2";
 import HOCPrivateRoute from "../conteiners/HOCPrivateRoute";
 import Welcome from "./Welcome";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Deskboards from "../conteiners/Deskboards";
+import Projects from "../conteiners/Projects";
 
-const Navigation = ({ auth, uid }) => {
+const Navigation = ({ auth }) => {
   return (
     <>
       <AppBar position="fixed">
         <Toolbar>
           <Typography>
-            <Link to="/">Fake Trello</Link>
+            {!auth && <Link to="/">Fake Trello</Link>}
+            {auth && <Link to="/home">Fake Trello</Link>}
           </Typography>
           {auth && <SignInLinks />}
           {!auth && <SignOutLinks />}
@@ -28,25 +29,19 @@ const Navigation = ({ auth, uid }) => {
           <Route exact path="/" component={Welcome} />
           <Route path="/sign_in" component={SignIn} />
           <Route path="/sign_up" component={SignUp} />
-          <HOCPrivateRoute path="/home" component={Deskboards} />
-          <HOCPrivateRoute path="/new_project" component={Havayi2} />
-          <HOCPrivateRoute path="/new_project" component={Havayi2} />
-          <HOCPrivateRoute path="/new_project" component={Havayi2} />
+          <HOCPrivateRoute exact path="/home" component={Deskboards} />
+          <HOCPrivateRoute exact path="/home/:id" component={Projects} />
         </Switch>
       </div>
     </>
   );
 };
 
-const mapDispatchToProps = {
-  // push
-};
 const mapStateToProps = state => ({
-  auth: state.authReducer.auth,
-  uid: state.firebase.auth.uid
+  auth: state.authReducer.auth
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Navigation);

@@ -4,13 +4,12 @@ import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
 import { ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
+import firebase, { firebaseConfig } from "./configs/firebaseConfig";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-// import firebase from 'firebase/app';
-import firebase, { firebaseConfig } from "./configs/firebaseConfig";
 import configureStore, { history } from "./store/store";
 
-const store = configureStore(/* provide initial state if any */);
+const store = configureStore({});
 
 const rrfProps = {
   firebase,

@@ -1,75 +1,96 @@
 import {
   Button,
-  Card,
-  CardActionArea,
-  CardContent,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
-  Typography
+  Fab
 } from "@material-ui/core";
-import { AddCircle } from "@material-ui/icons";
+import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { withFirebase, withFirestore } from "react-redux-firebase";
 import { compose } from "redux";
 import { addNewDeskAction } from "../actions/deskAction";
+import { addNewProjectAction } from "../actions/projectActions";
 
-const CreateNewDesk = ({ firestore, addNewDesk, firebase }) => {
+const CreateNewDesk = ({
+  firestore,
+  addNewDesk,
+  firebase,
+  label,
+  addNewProject,
+  uid,
+  docID,
+  deskName
+}) => {
   const [dialIsOpen, setDialog] = useState(false);
-  const [newDeskName, setName] = useState("");
-  const [newDeskDeskrip, setDeskription] = useState("");
+  const [deskOrProjName, setName] = useState("");
+  const [deskOrProjValue, setDeskription] = useState("");
 
-  function hendleChange(ev, type) {
+  function hendleChange(value, type) {
     if (type === "name") {
-      setName(ev.target.value);
+      setName(value);
     } else if (type === "deskription") {
-      setDeskription(ev.target.value);
+      setDeskription(value);
     } else {
       setDialog(!dialIsOpen);
     }
   }
 
   function _onSubmit(ev) {
-    addNewDesk({ newDeskName, newDeskDeskrip }, firestore, firebase);
-    hendleChange(ev, "close");
+    if (label === "Desk") {
+      addNewDesk({ deskOrProjName, deskOrProjValue }, firestore, firebase);
+      hendleChange(ev, "close");
+      hendleChange("", "name");
+      hendleChange("", "deskription");
+    } else {
+      addNewProject(
+        { deskOrProjName, deskOrProjValue },
+        firestore,
+        uid,
+        docID,
+        deskName
+      );
+      hendleChange(ev, "close");
+      hendleChange("", "name");
+      hendleChange("", "deskription");
+    }
   }
 
   return (
     <>
-      <Card>
-        <CardActionArea onClick={ev => hendleChange(ev, "close")}>
-          <CardContent>
-            <Typography>Create New Deskboard</Typography>
-            <AddCircle />
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Fab
+        color="primary"
+        aria-label="Add"
+        onClick={ev => hendleChange(ev, "close")}
+      >
+        <AddIcon />
+      </Fab>
       <Dialog
         open={dialIsOpen}
         onClose={ev => hendleChange(ev, "close")}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Create New Desk</DialogTitle>
+        <DialogTitle id="form-dialog-title">{`Create new ${label}`}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Desk name"
+            label={`${label} name`}
             fullWidth
-            value={newDeskName}
-            onChange={ev => hendleChange(ev, "name")}
+            value={deskOrProjName}
+            onChange={ev => hendleChange(ev.target.value, "name")}
           />
           <TextField
             margin="dense"
             id="deskription"
-            label="Desk deskription"
+            label={`${label} deskription`}
             fullWidth
-            value={newDeskDeskrip}
-            onChange={ev => hendleChange(ev, "deskription")}
+            value={deskOrProjValue}
+            onChange={ev => hendleChange(ev.target.value, "deskription")}
           />
         </DialogContent>
         <DialogActions>
@@ -87,7 +108,9 @@ const CreateNewDesk = ({ firestore, addNewDesk, firebase }) => {
 
 const mapDispatchToProps = dispatch => ({
   addNewDesk: (payload, firestore, firebase) =>
-    dispatch(addNewDeskAction(payload, firestore, firebase))
+    dispatch(addNewDeskAction(payload, firestore, firebase)),
+  addNewProject: (payload, firestore, uid, docID, deskName) =>
+    dispatch(addNewProjectAction(payload, firestore, uid, docID, deskName))
 });
 
 export default compose(

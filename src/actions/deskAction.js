@@ -38,8 +38,8 @@ export const addNewDeskAction = (
       .doc(user.uid)
       .collection("desksCollection")
       .add({
-        DeskDescription: payload.newDeskDeskrip,
-        DeskName: payload.newDeskName
+        DeskDescription: payload.deskOrProjValue,
+        DeskName: payload.deskOrProjValue
       });
     dispatch({ type: "NEW_DESK_ADDED" });
   } catch (error) {
@@ -47,7 +47,7 @@ export const addNewDeskAction = (
   }
 };
 
-export const deliteDeskAction = (firestore, uid, key) => async dispatch => {
+export const deleteDeskAction = (firestore, uid, key) => async dispatch => {
   await firestore
     .collection("users")
     .doc(uid)
@@ -57,16 +57,19 @@ export const deliteDeskAction = (firestore, uid, key) => async dispatch => {
   dispatch({ type: "DESK_ARE_DELETED" });
 };
 
-export const getDeskboardsAction = (firestore, uid) => {
-  return async dispatch => {
-    const data = await firestore
-      .collection("users")
-      .doc(uid)
-      .collection("desksCollection")
-      .get();
-    const dat = data.docs.map(doc => {
-      return { values: doc.data(), keys: doc.id };
-    });
-    dispatch({ type: "DESKS_ARE_GETED", payload: dat });
-  };
+export const getDeskboardsAction = (firestore, uid) => async dispatch => {
+  const data = await firestore
+    .collection("users")
+    .doc(uid)
+    .collection("desksCollection")
+    .get();
+  const dat = data.docs.map(doc => {
+    return { values: doc.data(), key: doc.id };
+  });
+  dispatch({ type: "DESKS_ARE_GETED", payload: dat });
 };
+
+export const DeskClickActon = payload => ({
+  type: "DESK_ARE_CLICKED",
+  payload
+});

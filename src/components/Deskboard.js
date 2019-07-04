@@ -7,25 +7,29 @@ import {
   Button,
   CardActions
 } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const Deskboard = ({ desks, deleteDeskFunc }) => {
+const Deskboard = ({ desks, deleteDeskFunc, whichProject }) => {
   return desks ? (
     desks.map(el => (
-      <Card key={el.keys}>
-        <CardActionArea>
+      <Card key={el.key}>
+        <CardActionArea
+          onClick={() => whichProject(el.key, el.values.DeskName)}
+        >
           <CardContent>
             <Typography>{el.values.DeskName}</Typography>
             <Typography>{el.values.DeskDescription}</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button>Change desk name</Button>
-          <Button onClick={() => deleteDeskFunc(el.keys)}>Delete desk</Button>
+          <Button onClick={() => deleteDeskFunc(el.key)}>Delete desk</Button>
         </CardActions>
       </Card>
     ))
   ) : (
-    <div>Loading</div>
+    <div>
+      <CircularProgress />
+    </div>
   );
 };
 
