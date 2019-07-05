@@ -10,6 +10,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Deskboards from "../conteiners/Deskboards";
 import Projects from "../conteiners/Projects";
+import Havayi2 from "./Havayi2";
 
 const Navigation = ({ auth }) => {
   return (
@@ -31,6 +32,7 @@ const Navigation = ({ auth }) => {
           <Route path="/sign_up" component={SignUp} />
           <HOCPrivateRoute exact path="/home" component={Deskboards} />
           <HOCPrivateRoute exact path="/home/:id" component={Projects} />
+          <HOCPrivateRoute exact path="/home/:id/:id" component={Havayi2} />
         </Switch>
       </div>
     </>

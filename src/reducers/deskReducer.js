@@ -18,6 +18,8 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, loading: true };
     case "DESK_ARE_CLICKED":
       return { ...state, deskName: payload };
+    case "GET_DESKS_ARE_FAILED":
+      return { ...state, error: payload };
 
     default:
       return state;

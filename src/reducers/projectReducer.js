@@ -14,6 +14,8 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, projects: payload, loading: false };
     case "PROJECT_ARE_DELETED":
       return { ...state, loading: true };
+    case "PROJECT_IS_COMPLETE":
+      return { ...state, loading: true };
 
     default:
       return state;

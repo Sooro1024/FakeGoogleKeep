@@ -5,9 +5,10 @@ import { withFirestore } from "react-redux-firebase";
 import CreateNewDesk from "../components/CreateNewDesk";
 import {
   getProjectsAction,
-  deleteProjectAction
+  deleteProjectAction,
+  completeProjectAction
 } from "../actions/projectActions";
-import ProjectDetales from "../components/ProjectDetales";
+import ProjectShortCut from "../components/ProjectShortCut";
 
 const Projects = ({
   uid,
@@ -17,26 +18,31 @@ const Projects = ({
   getProjects,
   projects,
   deleteProject,
-  loading
+  loading,
+  completeProject
 }) => {
-  // const getDeskboardCallback = useCallback(
-  //   () => getDeskboardFromServer(firestore, uid),
-  //   [firestore, uid, getDeskboardFromServer]
-  // );
-
   useEffect(() => {
     getProjects(uid, match.params.id, deskName, firestore);
-  }, [loading]);
+  }, [deskName, firestore, getProjects, loading, match.params.id, uid]);
 
-  function deleteProjectFunc(projKey) {
-    deleteProject(firestore, uid, match.params.id, deskName, projKey);
+  function projectFunctions(projKey, type, status) {
+    return type === "delete"
+      ? deleteProject(firestore, uid, match.params.id, deskName, projKey)
+      : completeProject(
+          firestore,
+          uid,
+          match.params.id,
+          deskName,
+          projKey,
+          status
+        );
   }
 
   return (
     <>
-      <ProjectDetales
+      <ProjectShortCut
         projects={projects}
-        deleteProjectFunc={deleteProjectFunc}
+        projectFunctions={projectFunctions}
       />
       <CreateNewDesk
         label="Project"
@@ -60,7 +66,11 @@ const mapDispatchToProps = dispatch => ({
   getProjects: (uid, key, deskName, firestore) =>
     dispatch(getProjectsAction(uid, key, deskName, firestore)),
   deleteProject: (firestore, uid, key, deskName, projKey) =>
-    dispatch(deleteProjectAction(firestore, uid, key, deskName, projKey))
+    dispatch(deleteProjectAction(firestore, uid, key, deskName, projKey)),
+  completeProject: (firestore, uid, key, deskName, projKey, status) =>
+    dispatch(
+      completeProjectAction(firestore, uid, key, deskName, projKey, status)
+    )
 });
 
 export default compose(

@@ -48,28 +48,49 @@ export const addNewDeskAction = (
 };
 
 export const deleteDeskAction = (firestore, uid, key) => async dispatch => {
-  await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("desksCollection")
-    .doc(key)
-    .delete();
+  await firestore.doc(`users/${uid}/desksCollection/${key}/`).delete();
   dispatch({ type: "DESK_ARE_DELETED" });
 };
 
 export const getDeskboardsAction = (firestore, uid) => async dispatch => {
-  const data = await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("desksCollection")
-    .get();
-  const dat = data.docs.map(doc => {
-    return { values: doc.data(), key: doc.id };
-  });
-  dispatch({ type: "DESKS_ARE_GETED", payload: dat });
+  try {
+    const contributors = await firestore.doc(`users/${uid}/`).get();
+    const finalResult = contributors.data();
+    console.log("finalResult", finalResult); //eslint-disable-line
+    // const contributorsDesks = await contributors.map(el =>
+    //   firestore
+    //     .collection(`users/${el}/desksCollection`)
+    //     .get()
+    //     .data()
+    // );
+    // console.log("contributorsDesks", contributorsDesks);
+    const data = await firestore
+      .collection(`users/${uid}/desksCollection`)
+      .get();
+    const dat = data.docs.map(doc => {
+      return { values: doc.data(), key: doc.id };
+    });
+
+    dispatch({ type: "DESKS_ARE_GETED", payload: dat });
+  } catch (error) {
+    dispatch({ type: "GET_DESKS_ARE_FAILED", payload: error });
+  }
 };
 
 export const DeskClickActon = payload => ({
   type: "DESK_ARE_CLICKED",
   payload
 });
+
+// export const getDeskboardsAction = (firestore, uid) => async dispatch => {
+//   const data = await firestore.collection(`users/${uid}/desksCollection`).get();
+//   const dat = data.docs.map(doc => {
+//     return { values: doc.data(), key: doc.id };
+//   });
+//   dispatch({ type: "DESKS_ARE_GETED", payload: dat });
+// };
+
+// export const DeskClickActon = payload => ({
+//   type: "DESK_ARE_CLICKED",
+//   payload
+// });
