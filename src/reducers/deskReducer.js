@@ -2,8 +2,8 @@ const initialState = {
   error: null,
   data: null,
   loading: false,
-  deskName: null,
-  deskKey: null
+  curentDeskName: null,
+  curentDeskKey: null
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -17,7 +17,11 @@ export default (state = initialState, { type, payload }) => {
     case "DESK_ARE_DELETED":
       return { ...state, loading: true };
     case "DESK_ARE_CLICKED":
-      return { ...state, deskName: payload };
+      return {
+        ...state,
+        curentDeskName: payload.curentDeskName,
+        curentDeskKey: payload.curentDeskKey
+      };
     case "GET_DESKS_ARE_FAILED":
       return { ...state, error: payload };
 

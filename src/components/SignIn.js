@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import { TextField, Typography, Button, Avatar } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { withFirebase } from "react-redux-firebase";
 import { SignInAction } from "../actions/authActions";
 
-const SignInComp = ({ signIn, authError, firebase }) => {
+const SignInComp = ({ signIn, authError }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   function handleChange(ev, type) {
@@ -14,13 +12,10 @@ const SignInComp = ({ signIn, authError, firebase }) => {
   }
   function _onSubmit(e) {
     e.preventDefault();
-    signIn(
-      {
-        email,
-        password
-      },
-      firebase
-    );
+    signIn({
+      email,
+      password
+    });
   }
 
   return (
@@ -79,13 +74,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signIn: (credential, firebase) => dispatch(SignInAction(credential, firebase))
+  signIn: credential => dispatch(SignInAction(credential))
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withFirebase
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(SignInComp);

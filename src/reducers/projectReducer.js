@@ -1,7 +1,9 @@
 const initialState = {
   loading: false,
   projects: null,
-  error: null
+  error: null,
+  curentProjectName: null,
+  curentProjectKey: null
 };
 
 export default (state = initialState, { type, payload }) => {

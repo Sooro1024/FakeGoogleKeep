@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyAIes_iPZ4iKV4ECWPEOeX7IcTj8IjLCVA",
   authDomain: "faketrello-74ef6.firebaseapp.com",
   databaseURL: "https://faketrello-74ef6.firebaseio.com",
@@ -14,5 +14,6 @@ export const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 firebase.firestore().settings({});
+export const firestore = firebase.firestore();
 
 export default firebase;

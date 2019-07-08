@@ -4,13 +4,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import { Button, IconButton, InputBase, Badge } from "@material-ui/core";
-import { withFirebase, withFirestore } from "react-redux-firebase";
 import { SignOutAction } from "../actions/authActions";
 import { searchAction } from "../actions/userActions";
 
-const SignInLinks = ({ signOut, firebase, searchSubmit, firestore }) => {
+const SignInLinks = ({ signOut, searchSubmit, firestore }) => {
   const [search, setSearch] = useState("");
 
   function onChangeHandler(ev) {
@@ -27,7 +25,7 @@ const SignInLinks = ({ signOut, firebase, searchSubmit, firestore }) => {
     <>
       <Button
         onClick={ev => {
-          signOut(ev, firebase);
+          signOut(ev);
         }}
       >
         Log out
@@ -65,15 +63,11 @@ const SignInLinks = ({ signOut, firebase, searchSubmit, firestore }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signOut: (ev, firebase) => dispatch(SignOutAction(ev, firebase)),
-  searchSubmit: (search, firebase) => dispatch(searchAction(search, firebase))
+  signOut: ev => dispatch(SignOutAction(ev)),
+  searchSubmit: search => dispatch(searchAction(search))
 });
 
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
-  withFirebase,
-  withFirestore
+export default connect(
+  null,
+  mapDispatchToProps
 )(SignInLinks);

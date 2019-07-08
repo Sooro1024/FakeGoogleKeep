@@ -10,20 +10,15 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { withFirebase, withFirestore } from "react-redux-firebase";
-import { compose } from "redux";
 import { addNewDeskAction } from "../actions/deskAction";
 import { addNewProjectAction } from "../actions/projectActions";
 
 const CreateNewDesk = ({
-  firestore,
   addNewDesk,
-  firebase,
   label,
   addNewProject,
-  uid,
   docID,
-  deskName
+  curentDeskName
 }) => {
   const [dialIsOpen, setDialog] = useState(false);
   const [deskOrProjName, setName] = useState("");
@@ -41,18 +36,12 @@ const CreateNewDesk = ({
 
   function _onSubmit(ev) {
     if (label === "Desk") {
-      addNewDesk({ deskOrProjName, deskOrProjValue }, firestore, firebase);
+      addNewDesk({ deskOrProjName, deskOrProjValue });
       hendleChange(ev, "close");
       hendleChange("", "name");
       hendleChange("", "deskription");
     } else {
-      addNewProject(
-        { deskOrProjName, deskOrProjValue },
-        firestore,
-        uid,
-        docID,
-        deskName
-      );
+      addNewProject({ deskOrProjName, deskOrProjValue }, docID, curentDeskName);
       hendleChange(ev, "close");
       hendleChange("", "name");
       hendleChange("", "deskription");
@@ -107,17 +96,12 @@ const CreateNewDesk = ({
 };
 
 const mapDispatchToProps = dispatch => ({
-  addNewDesk: (payload, firestore, firebase) =>
-    dispatch(addNewDeskAction(payload, firestore, firebase)),
-  addNewProject: (payload, firestore, uid, docID, deskName) =>
-    dispatch(addNewProjectAction(payload, firestore, uid, docID, deskName))
+  addNewDesk: payload => dispatch(addNewDeskAction(payload)),
+  addNewProject: (payload, docID, curentDeskName) =>
+    dispatch(addNewProjectAction(payload, docID, curentDeskName))
 });
 
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
-  withFirestore,
-  withFirebase
+export default connect(
+  null,
+  mapDispatchToProps
 )(CreateNewDesk);

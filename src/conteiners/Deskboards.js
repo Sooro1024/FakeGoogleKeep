@@ -1,8 +1,7 @@
 import React, { useEffect, useCallback } from "react";
-import { compose } from "redux";
 import { connect } from "react-redux";
-import { withFirestore } from "react-redux-firebase";
 import { push } from "connected-react-router";
+import { Grid } from "@material-ui/core";
 import Deskboard from "../components/Deskboard";
 import CreateNewDesk from "../components/CreateNewDesk";
 import {
@@ -12,64 +11,68 @@ import {
 } from "../actions/deskAction";
 
 const Deskboards = ({
-  firestore,
   getDeskboardFromServer,
-  uid,
   desks,
   loading,
   deleteDesknoards,
   openDesk,
-  deskName
+  curentDeskName
 }) => {
-  const getDeskboardCallback = useCallback(
-    () => getDeskboardFromServer(firestore, uid),
-    [firestore, uid, getDeskboardFromServer]
-  );
+  const getDeskboardCallback = useCallback(() => {
+    getDeskboardFromServer();
+  }, [getDeskboardFromServer]);
 
   useEffect(() => {
     getDeskboardCallback();
   }, [loading, getDeskboardCallback]);
 
   function deleteDeskFunc(key) {
-    deleteDesknoards(firestore, uid, key);
+    deleteDesknoards(key);
   }
 
   function whichProject(key, name) {
     openDesk(key);
-    deskName(name);
+    curentDeskName(name, key);
   }
 
   return (
     <>
-      <Deskboard
-        desks={desks}
-        deleteDeskFunc={deleteDeskFunc}
-        whichProject={whichProject}
-      />
-      <CreateNewDesk label="Desk" />
+      <Grid container spacing={5}>
+        <Deskboard
+          desks={desks}
+          deleteDeskFunc={deleteDeskFunc}
+          whichProject={whichProject}
+        />
+      </Grid>
+      <Grid
+        spacing={5}
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item xs={2}>
+          <CreateNewDesk label="Desk" />
+        </Grid>
+      </Grid>
     </>
   );
 };
 
 const mapStateToProps = state => ({
-  uid: state.authReducer.userData.uid,
   desks: state.deskReducer.data,
   loading: state.deskReducer.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-  getDeskboardFromServer: (firestore, uid) =>
-    dispatch(getDeskboardsAction(firestore, uid)),
-  deleteDesknoards: (firestore, uid, key) =>
-    dispatch(deleteDeskAction(firestore, uid, key)),
-  openDesk: e => dispatch(push(`/home/${e}`)),
-  deskName: e => dispatch(DeskClickActon(e))
+  getDeskboardFromServer: () => dispatch(getDeskboardsAction()),
+  deleteDesknoards: key => dispatch(deleteDeskAction(key)),
+  openDesk: deskId => dispatch(push(`/home/${deskId}`)),
+  curentDeskName: (curentDeskName, curentDeskKey) =>
+    dispatch(DeskClickActon(curentDeskName, curentDeskKey))
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withFirestore
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(Deskboards);

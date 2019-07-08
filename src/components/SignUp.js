@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import { TextField, Typography, Button } from "@material-ui/core";
-import { withFirebase, withFirestore } from "react-redux-firebase";
 import { SignUpAction } from "../actions/authActions";
 
-const SignUpComp = ({ signUp, authError, firebase, firestore }) => {
+const SignUpComp = ({ signUp, authError }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -41,18 +39,14 @@ const SignUpComp = ({ signUp, authError, firebase, firestore }) => {
   function _onSubmit(e) {
     e.preventDefault();
     if (password === password2) {
-      signUp(
-        {
-          email,
-          password,
-          nickName,
-          firstName,
-          lastName,
-          age
-        },
-        firebase,
-        firestore
-      );
+      signUp({
+        email,
+        password,
+        nickName,
+        firstName,
+        lastName,
+        age
+      });
     } else {
       // eslint-disable-next-line no-alert
       alert("Confirm password dont match to password!!!");
@@ -144,15 +138,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signUp: (credential, firebase, firestore) =>
-    dispatch(SignUpAction(credential, firebase, firestore))
+  signUp: credential => dispatch(SignUpAction(credential))
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withFirebase,
-  withFirestore
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(SignUpComp);

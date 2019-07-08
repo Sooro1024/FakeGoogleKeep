@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar, Typography, Toolbar } from "@material-ui/core";
+import { AppBar, Typography, Toolbar, IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import { Route, Link, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import SignInLinks from "./SignInLinks";
@@ -17,6 +18,9 @@ const Navigation = ({ auth }) => {
     <>
       <AppBar position="fixed">
         <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
           <Typography>
             {!auth && <Link to="/">Fake Trello</Link>}
             {auth && <Link to="/home">Fake Trello</Link>}

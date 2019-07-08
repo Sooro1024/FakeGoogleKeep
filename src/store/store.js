@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, compose } from "redux";
 // import { createLogger } from "redux-logger";
 import ReduxThunk from "redux-thunk";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
 import Reducers from "../reducers/rootReducer";
+import firebase, { firestore } from "../configs/firebaseConfig";
 
 export const history = createBrowserHistory();
 
@@ -17,7 +17,7 @@ export default function configureStore(a) {
     composeEnhancers(
       applyMiddleware(
         // createLogger(),
-        ReduxThunk,
+        ReduxThunk.withExtraArgument({ firebase, firestore }),
         routerMiddleware(history)
       )
       // reduxFirestore(firebaseConfig),

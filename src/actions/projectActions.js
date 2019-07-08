@@ -1,14 +1,17 @@
-export const addNewProjectAction = (
-  payload,
-  firestore,
-  uid,
-  key,
-  deskName
-) => async dispatch => {
+export const addNewProjectAction = (payload, key) => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
   try {
-    console.log(uid, key, deskName, payload);
+    const {
+      authReducer: {
+        userData: { uid }
+      },
+      deskReducer: { curentDeskName }
+    } = getState();
     await firestore
-      .collection(`users/${uid}/desksCollection/${key}/${deskName}`)
+      .collection(`users/${uid}/desksCollection/${key}/${curentDeskName}`)
       .add({
         ProjectName: payload.deskOrProjName,
         ProjectDetals: payload.deskOrProjValue,
@@ -20,27 +23,36 @@ export const addNewProjectAction = (
   }
 };
 
-export const deleteProjectAction = (
-  firestore,
-  uid,
-  key,
-  deskName,
-  projKey
-) => async dispatch => {
+export const deleteProjectAction = (key, projKey) => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  const {
+    authReducer: {
+      userData: { uid }
+    },
+    deskReducer: { curentDeskName }
+  } = getState();
   await firestore
-    .doc(`users/${uid}/desksCollection/${key}/${deskName}/${projKey}/`)
+    .doc(`users/${uid}/desksCollection/${key}/${curentDeskName}/${projKey}/`)
     .delete();
   dispatch({ type: "PROJECT_ARE_DELETED" });
 };
 
-export const getProjectsAction = (
-  uid,
-  key,
-  deskName,
-  firestore
-) => async dispatch => {
+export const getProjectsAction = key => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  const {
+    authReducer: {
+      userData: { uid }
+    },
+    deskReducer: { curentDeskName }
+  } = getState();
   const data = await firestore
-    .collection(`users/${uid}/desksCollection/${key}/${deskName}`)
+    .collection(`users/${uid}/desksCollection/${key}/${curentDeskName}`)
     .get();
   const dat = data.docs.map(doc => {
     return { values: doc.data(), key: doc.id };
@@ -48,16 +60,19 @@ export const getProjectsAction = (
   dispatch({ type: "PROJECTS_ARE_GETED", payload: dat });
 };
 
-export const completeProjectAction = (
-  firestore,
-  uid,
-  key,
-  deskName,
-  projKey,
-  status
-) => async dispatch => {
+export const completeProjectAction = (key, projKey, status) => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  const {
+    authReducer: {
+      userData: { uid }
+    },
+    deskReducer: { curentDeskName }
+  } = getState();
   await firestore
-    .doc(`users/${uid}/desksCollection/${key}/${deskName}/${projKey}/`)
+    .doc(`users/${uid}/desksCollection/${key}/${curentDeskName}/${projKey}/`)
     .update({ ProjectStatus: status });
   dispatch({ type: "PROJECT_IS_COMPLETE" });
 };

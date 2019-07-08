@@ -1,5 +1,9 @@
 // eslint-disable-next-line import/prefer-default-export
-export const searchAction = (search, firestore) => async dispatch => {
+export const searchAction = search => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
   try {
     const users = await firestore
       .collection("users")
@@ -8,7 +12,6 @@ export const searchAction = (search, firestore) => async dispatch => {
     const searchResult = users.docs.map(doc => {
       return { values: doc.data(), key: doc.id };
     });
-    console.log(searchResult);
     dispatch({
       type: "SEARCH",
       payload: searchResult

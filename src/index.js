@@ -1,30 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import { createFirestoreInstance } from "redux-firestore";
 import { ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
-import firebase, { firebaseConfig } from "./configs/firebaseConfig";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import configureStore, { history } from "./store/store";
 
 const store = configureStore({});
 
-const rrfProps = {
-  firebase,
-  config: firebaseConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance // <- needed if using firestore
-};
-
 ReactDOM.render(
   <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </ReactReduxFirebaseProvider>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
 );
@@ -33,3 +21,8 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+
+// ||------- eslint coments --------||
+//
+//     "no-restricted-syntax": "off",
+//     "no-await-in-loop": "off",

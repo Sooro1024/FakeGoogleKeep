@@ -1,18 +1,20 @@
 import { push } from "connected-react-router";
 
-export const SignInAction = (payload, firebase) => {
-  return dispatch => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(payload.email, payload.password)
-      .then(data => dispatch({ type: "SIGN_IN_SUCCESS", payload: data.user }))
-      .then(() => dispatch(push("/home")))
-      .catch(error => dispatch({ type: "SIGN_IN_FAILED", payload: error }));
-  };
+export const SignInAction = payload => async (
+  dispatch,
+  getState,
+  { firebase }
+) => {
+  await firebase
+    .auth()
+    .signInWithEmailAndPassword(payload.email, payload.password)
+    .then(data => dispatch({ type: "SIGN_IN_SUCCESS", payload: data.user }))
+    .then(() => dispatch(push("/home")))
+    .catch(error => dispatch({ type: "SIGN_IN_FAILED", payload: error }));
 };
 
-export const SignOutAction = (payload, firebase) => {
-  return dispatch => {
+export const SignOutAction = () => {
+  return (dispatch, getState, { firebase }) => {
     firebase
       .auth()
       .signOut()
@@ -22,11 +24,11 @@ export const SignOutAction = (payload, firebase) => {
   };
 };
 
-export const SignUpAction = (
-  payload,
-  firebase,
-  firestore
-) => async dispatch => {
+export const SignUpAction = payload => async (
+  dispatch,
+  getState,
+  { firebase, firestore }
+) => {
   try {
     await firebase
       .auth()
