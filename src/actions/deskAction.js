@@ -14,7 +14,8 @@ export const addNewDeskAction = payload => async (
       name: payload.deskOrProjName,
       owner: uid,
       contributors: [uid],
-      createDate: new Date()
+      createDate: new Date(),
+      Containing: []
     });
     dispatch({ type: "NEW_DESK_ADDED" });
   } catch (error) {

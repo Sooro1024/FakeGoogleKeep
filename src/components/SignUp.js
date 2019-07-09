@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { TextField, Typography, Button } from "@material-ui/core";
+import { TextField, Typography, Button, Grid, Avatar } from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { SignUpAction } from "../actions/authActions";
 
 const SignUpComp = ({ signUp, authError }) => {
@@ -56,79 +57,84 @@ const SignUpComp = ({ signUp, authError }) => {
   }
 
   return (
-    <div>
-      <Typography component="h1" variant="h5">
-        Sign Up
-      </Typography>
-      <form onSubmit={_onSubmit}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-          value={email}
-          onChange={({ target: { value } }) => {
-            handleChange(value, "email");
-          }}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={({ target: { value } }) => {
-            handleChange(value, "password");
-          }}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Confirm Password"
-          type="password"
-          id="password2"
-          autoComplete="current-password"
-          value={password2}
-          onChange={({ target: { value } }) => {
-            handleChange(value, "password2");
-          }}
-        />
-        {inputs.map(el => (
+    <Grid container direction="column" justify="flex-start" alignItems="center">
+      <Grid item lg={4}>
+        <Avatar style={{ margin: "auto" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
+        <form onSubmit={_onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            key={el.type}
-            label={el.type}
-            value={el.value}
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={email}
             onChange={({ target: { value } }) => {
-              handleChange(value, el.type);
+              handleChange(value, "email");
             }}
           />
-        ))}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={({ target: { value } }) => {
+              handleChange(value, "password");
+            }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Confirm Password"
+            type="password"
+            id="password2"
+            autoComplete="current-password"
+            value={password2}
+            onChange={({ target: { value } }) => {
+              handleChange(value, "password2");
+            }}
+          />
+          {inputs.map(el => (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              key={el.type}
+              label={el.type}
+              value={el.value}
+              onChange={({ target: { value } }) => {
+                handleChange(value, el.type);
+              }}
+            />
+          ))}
 
-        <Button type="submit" variant="contained" color="primary">
-          Sign In
-        </Button>
-      </form>
-      {authError !== null ? (
-        <p style={{ color: "red" }}>{authError.message}</p>
-      ) : null}
-    </div>
+          <Button type="submit" variant="contained" color="primary">
+            Sign Up
+          </Button>
+        </form>
+        {authError !== null ? (
+          <p style={{ color: "red" }}>{authError.message}</p>
+        ) : null}
+      </Grid>
+    </Grid>
   );
 };
 

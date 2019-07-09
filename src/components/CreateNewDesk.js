@@ -11,15 +11,9 @@ import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addNewDeskAction } from "../actions/deskAction";
-import { addNewProjectAction } from "../actions/projectActions";
+import { ListAddAction } from "../actions/listActions";
 
-const CreateNewDesk = ({
-  addNewDesk,
-  label,
-  addNewProject,
-  docID,
-  curentDeskName
-}) => {
+const CreateNewDesk = ({ addNewDesk, label, addList }) => {
   const [dialIsOpen, setDialog] = useState(false);
   const [deskOrProjName, setName] = useState("");
   const [deskOrProjValue, setDeskription] = useState("");
@@ -41,7 +35,7 @@ const CreateNewDesk = ({
       hendleChange("", "name");
       hendleChange("", "deskription");
     } else {
-      addNewProject({ deskOrProjName, deskOrProjValue }, docID, curentDeskName);
+      addList(deskOrProjName);
       hendleChange(ev, "close");
       hendleChange("", "name");
       hendleChange("", "deskription");
@@ -73,14 +67,16 @@ const CreateNewDesk = ({
             value={deskOrProjName}
             onChange={ev => hendleChange(ev.target.value, "name")}
           />
-          <TextField
-            margin="dense"
-            id="deskription"
-            label={`${label} deskription`}
-            fullWidth
-            value={deskOrProjValue}
-            onChange={ev => hendleChange(ev.target.value, "deskription")}
-          />
+          {label === "Desk" && (
+            <TextField
+              margin="dense"
+              id="deskription"
+              label={`${label} deskription`}
+              fullWidth
+              value={deskOrProjValue}
+              onChange={ev => hendleChange(ev.target.value, "deskription")}
+            />
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={ev => hendleChange(ev, "close")} color="primary">
@@ -97,8 +93,7 @@ const CreateNewDesk = ({
 
 const mapDispatchToProps = dispatch => ({
   addNewDesk: payload => dispatch(addNewDeskAction(payload)),
-  addNewProject: (payload, docID, curentDeskName) =>
-    dispatch(addNewProjectAction(payload, docID, curentDeskName))
+  addList: listname => dispatch(ListAddAction(listname))
 });
 
 export default connect(

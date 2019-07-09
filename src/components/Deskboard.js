@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActionArea,
@@ -8,30 +8,62 @@ import {
   CardActions,
   Grid
 } from "@material-ui/core";
+import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SerachMembers from "./SerachMembers";
 
-const Deskboard = ({ desks, deleteDeskFunc, whichProject }) => {
+const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
+  const [open, setOpen] = useState(false);
+  const [searchField, setSearchField] = useState("");
+  function handleClick(ev, type) {
+    return type === 1
+      ? (console.log("search action", searchField), setSearchField(""))
+      : (setSearchField(""), setOpen(!open));
+  }
+  function handleChange(ev) {
+    setSearchField(ev.target.value);
+  }
   return desks ? (
-    desks.map(el => (
-      <Grid item xs={4} key={el.key}>
-        <Card>
-          <CardActionArea onClick={() => whichProject(el.key, el.values.name)}>
-            <CardContent>
-              <Typography>{el.values.name}</Typography>
-              <Typography>{el.values.description}</Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button onClick={() => deleteDeskFunc(el.key)}>Delete desk</Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    ))
+    <>
+      {desks.map(el => (
+        <Grid item lg={4} key={el.key}>
+          <Card>
+            <CardActionArea onClick={() => whichDesk(el.key, el.values.name)}>
+              <CardContent>
+                <Typography>{el.values.name}</Typography>
+                <Typography>{el.values.description}</Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button onClick={() => deleteDeskFunc(el.key)}>
+                Delete Board
+              </Button>
+              <Button
+                onClick={() => {
+                  handleClick();
+                }}
+              >
+                Add a member
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
+      <SerachMembers
+        handleClick={handleClick}
+        open={open}
+        searchField={searchField}
+        handleChange={handleChange}
+      />
+    </>
   ) : (
-    <div>
+    <Grid item lg={1}>
       <CircularProgress />
-    </div>
+    </Grid>
   );
 };
 
-export default Deskboard;
+export default connect(
+  null,
+  null
+)(Deskboard);

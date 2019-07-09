@@ -30,28 +30,34 @@ const Deskboards = ({
     deleteDesknoards(key);
   }
 
-  function whichProject(key, name) {
+  function whichDesk(key, name) {
     openDesk(key);
     curentDeskName(name, key);
   }
 
   return (
     <>
-      <Grid container spacing={5}>
-        <Deskboard
-          desks={desks}
-          deleteDeskFunc={deleteDeskFunc}
-          whichProject={whichProject}
-        />
-      </Grid>
       <Grid
-        spacing={5}
         container
-        direction="column"
+        spacing={8}
+        direction="row"
         justify="center"
         alignItems="center"
       >
-        <Grid item xs={2}>
+        <Deskboard
+          desks={desks}
+          deleteDeskFunc={deleteDeskFunc}
+          whichDesk={whichDesk}
+        />
+      </Grid>
+      <Grid
+        spacing={8}
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item lg={1}>
           <CreateNewDesk label="Desk" />
         </Grid>
       </Grid>
