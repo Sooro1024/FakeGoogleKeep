@@ -14,8 +14,7 @@ export const addNewDeskAction = payload => async (
       name: payload.deskOrProjName,
       owner: uid,
       contributors: [uid],
-      createDate: new Date(),
-      Containing: []
+      createDate: new Date().toDateString()
     });
     dispatch({ type: "NEW_DESK_ADDED" });
   } catch (error) {
@@ -42,9 +41,13 @@ export const deleteDeskAction = key => async (
   }
 };
 
-export const DeskClickActon = (curentDeskName, curentDeskKey) => ({
+export const DeskClickActon = (
+  curentDeskName,
+  curentDeskKey,
+  curentDeskIndex
+) => ({
   type: "DESK_ARE_CLICKED",
-  payload: { curentDeskName, curentDeskKey }
+  payload: { curentDeskName, curentDeskKey, curentDeskIndex }
 });
 
 export const getDeskboardsAction = () => async (

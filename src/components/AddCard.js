@@ -7,15 +7,15 @@ import {
   Button
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { connect } from "react-redux";
+import { addCardtoList } from "../actions/cardActions";
 
-const AddCard = () => {
+const AddCard = ({ listKey, createCard }) => {
   const [open, setOpen] = useState(true);
   const [cardName, setCardName] = useState("");
   function handleClick(ev, type) {
     return type === 1
-      ? (setOpen(!open),
-        console.log("add card action", cardName),
-        setCardName(""))
+      ? (setOpen(!open), createCard(listKey, cardName), setCardName(""))
       : (setOpen(!open), setCardName(""));
   }
 
@@ -52,4 +52,11 @@ const AddCard = () => {
   );
 };
 
-export default AddCard;
+const mapDispatchToProps = dispatch => ({
+  createCard: (listKey, cardName) => dispatch(addCardtoList(listKey, cardName))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddCard);

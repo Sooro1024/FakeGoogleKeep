@@ -1,10 +1,11 @@
 import React from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import { ArrowBackTwoTone, BorderColorTwoTone } from "@material-ui/icons";
+import { connect } from "react-redux";
 import CreateNewDesk from "../components/CreateNewDesk";
 import ListShortCut from "../components/ListShortCut";
 
-const ListsContayner = () => {
+const ListsContayner = ({ curentDeskName }) => {
   return (
     <>
       <Grid
@@ -26,7 +27,7 @@ const ListsContayner = () => {
             color="textPrimary"
             style={{ textAlign: "center" }}
           >
-            Current Deskboard name
+            {curentDeskName}
           </Typography>
         </Grid>
         <Grid item lg={2}>
@@ -52,4 +53,11 @@ const ListsContayner = () => {
   );
 };
 
-export default ListsContayner;
+const mapStateToProps = state => ({
+  curentDeskName: state.firestoreReducer.curentDeskName
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(ListsContayner);

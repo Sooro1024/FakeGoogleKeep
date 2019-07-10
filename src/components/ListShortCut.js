@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {
   Grid,
   Card,
   CardContent,
-  List,
   IconButton,
-  ListItem,
-  ListItemText,
   CardHeader,
   Menu,
   MenuItem
 } from "@material-ui/core";
 import AddCard from "./AddCard";
+import TrelloCard from "./TrelloCard";
+import { getListsAction } from "../actions/listActions";
 
-const ListShortCut = () => {
+const ListShortCut = ({ listData, listsLoading, getLists }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,45 +25,28 @@ const ListShortCut = () => {
   function handleClose() {
     setAnchorEl(null); // es pah@ chem haskanum uxaki copy a arac
   }
-  const lists = [
-    "asdasd",
-    "asdasd",
-    "asdasd",
-    "hytjgf",
-    "sdfgfdsg",
-    "dfsgfsdg"
-  ];
-  const a = [
-    { name: "first", l: lists, desk: "desk" },
-    { name: "second", l: lists, desk: "desk" },
-    { name: "third", l: lists, desk: "desk" }
-  ];
-  return lists
-    ? a.map(el => (
-        <>
-          <Grid item lg={4}>
-            <Card>
-              <CardHeader
-                action={
-                  <IconButton aria-label="Settings" onClick={handleClick}>
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={el.name}
-                subheader={el.desk}
-              />
-              <CardContent>
-                {el.l.map(e => (
-                  <List>
-                    <ListItem button>
-                      <ListItemText primary={e} />
-                    </ListItem>
-                  </List>
-                ))}
-                <AddCard />
-              </CardContent>
-            </Card>
-          </Grid>
+  useEffect(() => {
+    getLists();
+  }, [listsLoading, getLists]);
+  return listData === null
+    ? null
+    : listData.map(el => (
+        <Grid item lg={4} key={el.key}>
+          <Card>
+            <CardHeader
+              action={
+                <IconButton aria-label="Settings" onClick={handleClick}>
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title={el.listName}
+              subheader={el.date}
+            />
+            <CardContent>
+              <TrelloCard listKey={el.key} />
+              <AddCard listKey={el.key} />
+            </CardContent>
+          </Card>
           <Menu
             id="fade-menu"
             anchorEl={anchorEl}
@@ -74,9 +57,20 @@ const ListShortCut = () => {
             <MenuItem onClick={handleClose}>Rename List</MenuItem>
             <MenuItem onClick={handleClose}>Delete List</MenuItem>
           </Menu>
-        </>
-      ))
-    : null;
+        </Grid>
+      ));
 };
 
-export default ListShortCut;
+const mapStateToProps = state => ({
+  listsLoading: state.firestoreReducer.listsLoading,
+  listData: state.firestoreReducer.listData
+});
+
+const mapDispatchToProps = dispatch => ({
+  getLists: () => dispatch(getListsAction())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListShortCut);

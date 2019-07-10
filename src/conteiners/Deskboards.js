@@ -30,9 +30,9 @@ const Deskboards = ({
     deleteDesknoards(key);
   }
 
-  function whichDesk(key, name) {
+  function whichDesk(key, name, index) {
     openDesk(key);
-    curentDeskName(name, key);
+    curentDeskName(name, key, index);
   }
 
   return (
@@ -66,16 +66,16 @@ const Deskboards = ({
 };
 
 const mapStateToProps = state => ({
-  desks: state.deskReducer.data,
-  loading: state.deskReducer.loading
+  desks: state.firestoreReducer.data,
+  loading: state.firestoreReducer.loading
 });
 
 const mapDispatchToProps = dispatch => ({
   getDeskboardFromServer: () => dispatch(getDeskboardsAction()),
   deleteDesknoards: key => dispatch(deleteDeskAction(key)),
   openDesk: deskId => dispatch(push(`/home/${deskId}`)),
-  curentDeskName: (curentDeskName, curentDeskKey) =>
-    dispatch(DeskClickActon(curentDeskName, curentDeskKey))
+  curentDeskName: (curentDeskName, curentDeskKey, curentDeskIndex) =>
+    dispatch(DeskClickActon(curentDeskName, curentDeskKey, curentDeskIndex))
 });
 
 export default connect(

@@ -25,10 +25,12 @@ const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
   }
   return desks ? (
     <>
-      {desks.map(el => (
+      {desks.map((el, index) => (
         <Grid item lg={4} key={el.key}>
           <Card>
-            <CardActionArea onClick={() => whichDesk(el.key, el.values.name)}>
+            <CardActionArea
+              onClick={() => whichDesk(el.key, el.values.name, index)}
+            >
               <CardContent>
                 <Typography>{el.values.name}</Typography>
                 <Typography>{el.values.description}</Typography>

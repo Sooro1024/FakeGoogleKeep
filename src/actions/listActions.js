@@ -1,32 +1,71 @@
+// eslint-disable-next-line import/prefer-default-export
 export const ListAddAction = newListName => async (
   dispatch,
   getState,
   { firestore }
 ) => {
   const {
-    deskReducer: { curentDeskKey }
+    firestoreReducer: { curentDeskKey },
+    authReducer: {
+      userData: { uid }
+    }
   } = getState();
-  let data = await firestore.doc(`Boards/${curentDeskKey}`).get();
-  data = data.data();
-  data.Containing = [...data.Containing, newListName];
-  await firestore.doc(`Boards/${curentDeskKey}`).set({ ...data });
-  await firestore
-    .collection(`Boards/${curentDeskKey}/${newListName}`)
-    .add({ ListName: newListName });
+  await firestore.collection("Lists").add({
+    childeOf: curentDeskKey,
+    owner: uid,
+    date: new Date().toDateString(),
+    listName: newListName
+  });
   dispatch({ type: "NEW_LIST_IS_ADDED" });
 };
 
-export const ListDeleteAction = payload => ({
-  type: "ListDeleteAction",
-  payload
-});
+export const getListsAction = () => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  const {
+    firestoreReducer: { curentDeskKey }
+  } = getState();
+  const snapshot = await firestore
+    .collection("Lists")
+    .where("childeOf", "==", curentDeskKey)
+    .get();
+  const data = snapshot.docs.map(el => ({ key: el.id, ...el.data() }));
+  dispatch({ type: "LISTS_ARE_GATED", payload: data });
+};
 
-// export const ListRenameAction = payload => ({
-//   type: type,
-//   payload
-// });
+// export const renameListAction = listName => async (
+//   dispatch,
+//   getState,
+//   { firestore }
+// ) => {};
 
-// export const getListsAction = payload => ({
-//   type: type,
-//   payload
-// });
+// export const deleteListAction = listName => async (
+//   dispatch,
+//   getState,
+//   { firestore }
+// ) => {};
+
+// export const ListAddAction = newListName => async (
+//   dispatch,
+//   getState,
+//   { firestore }
+// ) => {
+//   const {
+//     firestoreReducer: { curentDeskKey },
+//     authReducer: {
+//       userData: { uid }
+//     }
+//   } = getState();
+//   let data = await firestore.doc(`Boards/${curentDeskKey}`).get();
+//   data = data.data();
+//   const dataWillAdd = {
+//     name: newListName,
+//     owner: uid,
+//     date: new Date().toDateString()
+//   };
+//   data.containing = [...data.containing, dataWillAdd];
+//   await firestore.doc(`Boards/${curentDeskKey}`).set({ ...data });
+//   dispatch({ type: "NEW_LIST_IS_ADDED" });
+// };
