@@ -12,9 +12,15 @@ import {
 } from "@material-ui/core";
 import AddCard from "./AddCard";
 import TrelloCard from "./TrelloCard";
-import { getListsAction } from "../actions/listActions";
+import { getListsAction, deleteListAction } from "../actions/listActions";
 
-const ListShortCut = ({ listData, listsLoading, getLists }) => {
+const ListShortCut = ({
+  listData,
+  listsLoading,
+  getLists,
+  deleteList,
+  handleCloseCard
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -43,7 +49,7 @@ const ListShortCut = ({ listData, listsLoading, getLists }) => {
               subheader={el.date}
             />
             <CardContent>
-              <TrelloCard listKey={el.key} />
+              <TrelloCard listKey={el.key} handleClose={handleCloseCard} />
               <AddCard listKey={el.key} />
             </CardContent>
           </Card>
@@ -55,7 +61,14 @@ const ListShortCut = ({ listData, listsLoading, getLists }) => {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>Rename List</MenuItem>
-            <MenuItem onClick={handleClose}>Delete List</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                deleteList(el.key);
+              }}
+            >
+              Delete List
+            </MenuItem>
           </Menu>
         </Grid>
       ));
@@ -67,7 +80,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLists: () => dispatch(getListsAction())
+  getLists: () => dispatch(getListsAction()),
+  deleteList: listKey => dispatch(deleteListAction(listKey))
 });
 
 export default connect(

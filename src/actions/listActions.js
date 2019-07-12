@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const ListAddAction = newListName => async (
   dispatch,
   getState,
@@ -16,7 +15,7 @@ export const ListAddAction = newListName => async (
     date: new Date().toDateString(),
     listName: newListName
   });
-  dispatch({ type: "NEW_LIST_IS_ADDED" });
+  dispatch({ type: "UPDATE_LIST_DATA" });
 };
 
 export const getListsAction = () => async (
@@ -35,17 +34,25 @@ export const getListsAction = () => async (
   dispatch({ type: "LISTS_ARE_GATED", payload: data });
 };
 
-// export const renameListAction = listName => async (
-//   dispatch,
-//   getState,
-//   { firestore }
-// ) => {};
+export const renameListAction = (listKey, newName) => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  await firestore
+    .doc(`Lists/${listKey}`)
+    .set({ listName: newName }, { merge: true });
+  dispatch({ type: "UPDATE_LIST_DATA" });
+};
 
-// export const deleteListAction = listName => async (
-//   dispatch,
-//   getState,
-//   { firestore }
-// ) => {};
+export const deleteListAction = listKey => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  await firestore.doc(`Lists/${listKey}`).delete();
+  dispatch({ type: "UPDATE_LIST_DATA" });
+};
 
 // export const ListAddAction = newListName => async (
 //   dispatch,

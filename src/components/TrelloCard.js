@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { List, ListItem, ListItemText } from "@material-ui/core";
-import { getCardsByListKey, deleteCardByKey } from "../actions/cardActions";
+import { getCardsByListKey } from "../actions/cardActions";
 
-const TrelloCard = ({ listKey, getCards, cardLoading, cards, deleteCard }) => {
+const TrelloCard = ({ listKey, getCards, cardLoading, cards, handleClose }) => {
   useEffect(() => {
     getCards(listKey);
   }, [listKey, getCards, cardLoading]);
@@ -16,7 +16,7 @@ const TrelloCard = ({ listKey, getCards, cardLoading, cards, deleteCard }) => {
   }
   return cards[listKey].map(e => (
     <List key={e.key}>
-      <ListItem button onClick={() => deleteCard(e.key)}>
+      <ListItem button onClick={() => handleClose(e)}>
         <ListItemText primary={e.values.name} />
       </ListItem>
     </List>
@@ -31,8 +31,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getCards: listKey => dispatch(getCardsByListKey(listKey)),
-  deleteCard: cardKey => dispatch(deleteCardByKey(cardKey))
+  getCards: listKey => dispatch(getCardsByListKey(listKey))
 });
 
 export default connect(

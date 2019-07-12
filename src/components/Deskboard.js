@@ -11,13 +11,21 @@ import {
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SerachMembers from "./SerachMembers";
+import { searchUserByNicknameAction } from "../actions/userActions";
 
-const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
+const Deskboard = ({
+  desks,
+  deleteDeskFunc,
+  whichDesk,
+  searchResult,
+  searchUser,
+  curentDeskName
+}) => {
   const [open, setOpen] = useState(false);
   const [searchField, setSearchField] = useState("");
   function handleClick(ev, type) {
     return type === 1
-      ? (console.log("search action", searchField), setSearchField(""))
+      ? (searchUser(searchField), setSearchField(""))
       : (setSearchField(""), setOpen(!open));
   }
   function handleChange(ev) {
@@ -43,6 +51,7 @@ const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
               <Button
                 onClick={() => {
                   handleClick();
+                  curentDeskName(el.values.name, el.key);
                 }}
               >
                 Add a member
@@ -56,6 +65,8 @@ const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
         open={open}
         searchField={searchField}
         handleChange={handleChange}
+        searchResult={searchResult}
+        searchUser={searchUser}
       />
     </>
   ) : (
@@ -65,7 +76,15 @@ const Deskboard = ({ desks, deleteDeskFunc, whichDesk }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  searchResult: state.firestoreReducer.searchResult
+});
+
+const mapDispatchToProps = dispatch => ({
+  searchUser: nickName => dispatch(searchUserByNicknameAction(nickName))
+});
+
 export default connect(
-  null,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(Deskboard);

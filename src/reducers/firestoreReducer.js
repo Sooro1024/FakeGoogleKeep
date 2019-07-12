@@ -6,13 +6,15 @@ const initialState = {
   listData: null,
   curentDeskName: null,
   curentDeskKey: null,
-
+  searchResult: null,
+  membersList: null,
   curentList: null,
   curentListKey: null,
   curentCardName: null,
   curentCardKey: null,
   cardLoading: false,
-  cards: null
+  cards: null,
+  membersLoad: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -34,8 +36,6 @@ export default (state = initialState, { type, payload }) => {
       };
     case "GET_DESKS_ARE_FAILED":
       return { ...state, error: payload };
-    case "NEW_LIST_IS_ADDED":
-      return { ...state, listsLoading: true };
     case "LISTS_ARE_GATED":
       return { ...state, listData: payload, listsLoading: false };
     case "NEW_CARD_ADDED":
@@ -46,6 +46,20 @@ export default (state = initialState, { type, payload }) => {
         cardLoading: false,
         cards: { ...state.cards, ...payload }
       };
+    case "CARD_WAS_DELETED":
+      return { ...state, cardLoading: true };
+    case "UPDATE_LIST_DATA":
+      return { ...state, listsLoading: true };
+    case "SEARCH_RESULTS":
+      return { ...state, searchResult: payload };
+    // case "SEARCH_FEILED":
+    //   return { ...state, error: payload };
+    case "MEMBERS_WAS_GETED":
+      return { ...state, membersList: payload, membersLoad: true };
+    case "MEMBER_WAS_ADDED":
+      return { ...state, searchResult: payload };
+    case "MEMBER_WAS_DELETED":
+      return { ...state, membersLoad: true };
 
     default:
       return state;
