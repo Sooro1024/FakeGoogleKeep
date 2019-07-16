@@ -6,8 +6,12 @@ import { Button } from "@material-ui/core";
 const SignOutLinks = props => {
   return (
     <div style={{ marginLeft: "85%" }}>
-      <Button onClick={() => props.push("/sign_in")}>Sign in</Button>
-      <Button onClick={() => props.push("/sign_up")}>Sign up</Button>
+      <Button color="inherit" onClick={() => props.push("/sign_in")}>
+        Sign in
+      </Button>
+      <Button color="inherit" onClick={() => props.push("/sign_up")}>
+        Sign up
+      </Button>
     </div>
   );
 };

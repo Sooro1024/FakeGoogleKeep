@@ -21,6 +21,7 @@ const SignInLinks = ({ signOut, lisenNot, notif }) => {
   return (
     <div style={{ marginLeft: "85%" }}>
       <Button
+        color="inherit"
         onClick={ev => {
           signOut(ev);
         }}

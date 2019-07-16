@@ -7,11 +7,15 @@ import { SignInAction } from "../actions/authActions";
 const SignInComp = ({ signIn, authError }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonCondition, setbuttonCondition] = useState(false);
   function handleChange(ev, type) {
-    return type === "email" ? setEmail(ev) : setPassword(ev);
+    return type === "email"
+      ? (setEmail(ev), setbuttonCondition(false))
+      : (setPassword(ev), setbuttonCondition(false));
   }
   function _onSubmit(e) {
     e.preventDefault();
+    setbuttonCondition(true);
     signIn({
       email,
       password
@@ -58,7 +62,12 @@ const SignInComp = ({ signIn, authError }) => {
               handleChange(value, "password");
             }}
           />
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={buttonCondition}
+          >
             Sign In
           </Button>
         </form>
