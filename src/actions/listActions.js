@@ -10,8 +10,8 @@ export const ListAddAction = newListName => async (
     }
   } = getState();
   await firestore.collection("Lists").add({
-    childeOf: curentDeskKey,
-    owner: uid,
+    inDesk: curentDeskKey,
+    createdBy: uid,
     date: new Date().toDateString(),
     listName: newListName
   });
@@ -28,7 +28,7 @@ export const getListsAction = () => async (
   } = getState();
   const snapshot = await firestore
     .collection("Lists")
-    .where("childeOf", "==", curentDeskKey)
+    .where("inDesk", "==", curentDeskKey)
     .get();
   const data = snapshot.docs.map(el => ({ key: el.id, ...el.data() }));
   dispatch({ type: "LISTS_ARE_GATED", payload: data });
@@ -69,7 +69,7 @@ export const deleteListAction = listKey => async (
 //   data = data.data();
 //   const dataWillAdd = {
 //     name: newListName,
-//     owner: uid,
+//     createdBy: uid,
 //     date: new Date().toDateString()
 //   };
 //   data.containing = [...data.containing, dataWillAdd];

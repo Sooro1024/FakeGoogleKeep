@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Typography,
@@ -7,11 +8,17 @@ import {
   AppBar,
   Dialog,
   Slide,
-  Grid
+  Grid,
+  Container
 } from "@material-ui/core";
 import { CloseTwoTone } from "@material-ui/icons";
+import CardInputFields from "./CardInputFields";
+import { deleteCardByKey } from "../actions/cardActions";
 
-const CardComponent = ({ open, handleClose, cardData }) => {
+const CardComponent = ({ open, handleClose, cardData, deleteCard }) => {
+  if (cardData.values === undefined) {
+    return null;
+  }
   return (
     <Dialog
       fullScreen
@@ -30,17 +37,42 @@ const CardComponent = ({ open, handleClose, cardData }) => {
           >
             <CloseTwoTone />
           </IconButton>
-          <Typography variant="h6">{cardData.key}</Typography>
-          <Button color="inherit" onClick={handleClose}>
-            save
+          <Typography variant="h6">{cardData.values.name}</Typography>
+          {/* <Button color="primary" onClick={handleClose}>
+              Save changes
+            </Button> */}
+          <Button
+            color="secondary"
+            onClick={() => {
+              handleClose();
+              deleteCard(cardData.key);
+            }}
+          >
+            Delete card
           </Button>
         </Toolbar>
       </AppBar>
-      <Grid container>
-        <Grid item lg={3}></Grid>
-      </Grid>
+      <Container style={{ marginTop: "100px" }}>
+        <Grid container>
+          <Grid item lg={6}></Grid>
+          <CardInputFields
+            cardDesc={
+              cardData.values.cardDesc === undefined
+                ? ""
+                : cardData.values.cardDesc
+            }
+            cardKey={cardData.key}
+          />
+        </Grid>
+      </Container>
     </Dialog>
   );
 };
+const mapDispatchToProps = dispatch => ({
+  deleteCard: cardKey => dispatch(deleteCardByKey(cardKey))
+});
 
-export default CardComponent;
+export default connect(
+  null,
+  mapDispatchToProps
+)(CardComponent);

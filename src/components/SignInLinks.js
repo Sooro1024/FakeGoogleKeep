@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import MailIcon from "@material-ui/icons/Mail";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { connect } from "react-redux";
 import { Button, IconButton, Badge } from "@material-ui/core";
 import { SignOutAction } from "../actions/authActions";
+import { setLisenerForNotifications } from "../actions/listenNotificationActions";
 
-const SignInLinks = ({ signOut }) => {
+const SignInLinks = ({ signOut, lisenNot, notif }) => {
+  useEffect(() => {
+    const unlisenNot = lisenNot();
+    // eslint-disable-next-line no-console
+    console.log("lisener was set");
+    return () => {
+      // eslint-disable-next-line no-console
+      console.log("lisener was unset");
+      unlisenNot();
+    };
+  }, [lisenNot]);
   return (
     <div style={{ marginLeft: "85%" }}>
       <Button
@@ -22,7 +33,10 @@ const SignInLinks = ({ signOut }) => {
         </Badge>
       </IconButton> */}
       <IconButton color="inherit">
-        <Badge badgeContent={17} color="secondary">
+        <Badge
+          badgeContent={notif === null ? 0 : notif.length}
+          color="secondary"
+        >
           <NotificationsIcon />
         </Badge>
       </IconButton>
@@ -41,10 +55,15 @@ const SignInLinks = ({ signOut }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signOut: ev => dispatch(SignOutAction(ev))
+  signOut: ev => dispatch(SignOutAction(ev)),
+  lisenNot: () => dispatch(setLisenerForNotifications())
+});
+
+const mapStateToProps = state => ({
+  notif: state.firestoreReducer.pushNotification
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignInLinks);

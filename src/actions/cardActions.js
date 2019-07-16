@@ -3,10 +3,20 @@ export const addCardtoList = (listKey, cardName) => async (
   getState,
   { firestore }
 ) => {
-  await firestore.collection(`Cards`).add({
-    childeOf: listKey,
+  const {
+    firestoreReducer: { curentDeskName, curentDeskKey },
+    authReducer: {
+      userData: { uid }
+    }
+  } = getState();
+
+  await firestore.collection("Cards").add({
+    inList: listKey,
     name: cardName,
-    date: new Date().toDateString()
+    date: new Date().toDateString(),
+    createdBy: uid,
+    inDesk: curentDeskKey,
+    inDeskName: curentDeskName
   });
   dispatch({ type: "NEW_CARD_ADDED" });
 };
@@ -18,7 +28,7 @@ export const getCardsByListKey = listKey => async (
 ) => {
   const snapshot = await firestore
     .collection(`Cards`)
-    .where("childeOf", "==", listKey)
+    .where("inList", "==", listKey)
     .get();
   const cards = snapshot.docs.map(el => ({ key: el.id, values: el.data() }));
   dispatch({
@@ -36,4 +46,18 @@ export const deleteCardByKey = cardKey => async (
   dispatch({
     type: "CARD_WAS_DELETED"
   });
+};
+
+export const chageCardAction = (addingData, cardKey) => async (
+  dispatch,
+  getState,
+  { firestore }
+) => {
+  await firestore.doc(`Cards/${cardKey}`).set(
+    {
+      cardDesc: addingData
+    },
+    { merge: true }
+  );
+  dispatch({ type: "NEW_CARD_ADDED" });
 };

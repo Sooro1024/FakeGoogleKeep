@@ -14,7 +14,8 @@ const initialState = {
   curentCardKey: null,
   cardLoading: false,
   cards: null,
-  membersLoad: false
+  membersLoad: true,
+  pushNotification: null
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -52,14 +53,18 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, listsLoading: true };
     case "SEARCH_RESULTS":
       return { ...state, searchResult: payload };
-    // case "SEARCH_FEILED":
-    //   return { ...state, error: payload };
     case "MEMBERS_WAS_GETED":
-      return { ...state, membersList: payload, membersLoad: true };
+      return {
+        ...state,
+        membersList: payload,
+        membersLoad: false
+      };
     case "MEMBER_WAS_ADDED":
-      return { ...state, searchResult: payload };
+      return { ...state, searchResult: payload, membersLoad: true };
     case "MEMBER_WAS_DELETED":
       return { ...state, membersLoad: true };
+    case "NOTIFICATION_LISTENER_ARE_SET":
+      return { ...state, pushNotification: payload };
 
     default:
       return state;

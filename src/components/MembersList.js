@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Avatar, Chip } from "@material-ui/core";
 import { FaceTwoTone } from "@material-ui/icons";
@@ -11,12 +11,9 @@ const MembersList = ({
   deleteMember,
   uid
 }) => {
-  const membersCallback = useCallback(() => {
+  useEffect(() => {
     getMembers();
-  }, [getMembers]);
-
-  useEffect(() => membersCallback(), [membersCallback, membersLoad]);
-  useEffect(() => membersCallback());
+  }, [getMembers, membersLoad]);
 
   return membersList === null
     ? null
