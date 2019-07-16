@@ -10,9 +10,9 @@ import {
   Menu,
   MenuItem
 } from "@material-ui/core";
-import AddCard from "./AddCard";
-import TrelloCard from "./TrelloCard";
-import { getListsAction, deleteListAction } from "../actions/listActions";
+import AddCard from "../card/AddCard";
+import TrelloCard from "../card/TrelloCard";
+import { getListsAction, deleteListAction } from "../../actions/listActions";
 
 const ListShortCut = ({
   listData,

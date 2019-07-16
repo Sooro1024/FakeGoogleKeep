@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Avatar, Chip } from "@material-ui/core";
 import { FaceTwoTone } from "@material-ui/icons";
-import { getMembersAction, deleteMemberAction } from "../actions/userActions";
+import {
+  getMembersAction,
+  deleteMemberAction
+} from "../../actions/userActions";
 
 const MembersList = ({
   membersList,

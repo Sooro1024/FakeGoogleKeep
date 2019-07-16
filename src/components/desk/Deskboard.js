@@ -10,8 +10,8 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SerachMembers from "./SerachMembers";
-import { searchUserByNicknameAction } from "../actions/userActions";
+import SerachMembers from "../member/SerachMembers";
+import { searchUserByNicknameAction } from "../../actions/userActions";
 
 const Deskboard = ({
   desks,

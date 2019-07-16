@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { connect } from "react-redux";
-import { addCardtoList } from "../actions/cardActions";
+import { addCardtoList } from "../../actions/cardActions";
 
 const AddCard = ({ listKey, createCard }) => {
   const [open, setOpen] = useState(true);

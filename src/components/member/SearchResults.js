@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { addAContrebutorAction } from "../actions/userActions";
+import { addAContrebutorAction } from "../../actions/userActions";
 
 const SearchResults = ({ results, addMember }) => {
   const init = results.map(() => false);

@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation/Navigation";
 // import { Grid } from "@material-ui/core";
 // import { Switch, Route } from "react-router-dom";
 // import NavBar from "./comp/NavBar";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { TextField, Typography, Button, Grid, Avatar } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { SignUpAction } from "../actions/authActions";
+import { SignUpAction } from "../../actions/authActions";
 
 const SignUpComp = ({ signUp, authError }) => {
   const [email, setEmail] = useState("");

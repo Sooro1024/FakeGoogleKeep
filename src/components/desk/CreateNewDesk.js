@@ -10,8 +10,8 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addNewDeskAction } from "../actions/deskAction";
-import { ListAddAction } from "../actions/listActions";
+import { addNewDeskAction } from "../../actions/deskAction";
+import { ListAddAction } from "../../actions/listActions";
 
 const CreateNewDesk = ({ addNewDesk, label, addList }) => {
   const [dialIsOpen, setDialog] = useState(false);

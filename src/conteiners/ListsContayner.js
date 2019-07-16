@@ -3,10 +3,10 @@ import { Grid, Button, Typography } from "@material-ui/core";
 import { ArrowBackTwoTone, BorderColorTwoTone } from "@material-ui/icons";
 import { goBack } from "connected-react-router";
 import { connect } from "react-redux";
-import CreateNewDesk from "../components/CreateNewDesk";
-import ListShortCut from "../components/ListShortCut";
-import MembersList from "../components/MembersList";
-import CardComponent from "../components/CardComponent";
+import CreateNewDesk from "../components/desk/CreateNewDesk";
+import ListShortCut from "../components/list/ListShortCut";
+import MembersList from "../components/member/MembersList";
+import CardComponent from "../components/card/CardComponent";
 
 const ListsContayner = ({ curentDeskName, back }) => {
   const [cardOpen, setCardOpen] = useState(false);

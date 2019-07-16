@@ -4,8 +4,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { connect } from "react-redux";
 import { Button, IconButton, Badge } from "@material-ui/core";
-import { SignOutAction } from "../actions/authActions";
-import { setLisenerForNotifications } from "../actions/listenNotificationActions";
+import { SignOutAction } from "../../actions/authActions";
+import { setLisenerForNotifications } from "../../actions/listenNotificationActions";
 
 const SignInLinks = ({ signOut, lisenNot, notif }) => {
   useEffect(() => {

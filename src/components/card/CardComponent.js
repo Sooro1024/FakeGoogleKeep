@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { CloseTwoTone } from "@material-ui/icons";
 import CardInputFields from "./CardInputFields";
-import { deleteCardByKey } from "../actions/cardActions";
+import { deleteCardByKey } from "../../actions/cardActions";
 
 const CardComponent = ({ open, handleClose, cardData, deleteCard }) => {
   if (cardData.values === undefined) {

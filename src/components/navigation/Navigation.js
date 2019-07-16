@@ -2,14 +2,14 @@ import React from "react";
 import { AppBar, Typography, Toolbar, Container } from "@material-ui/core";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import SignInLinks from "./SignInLinks";
-import SignOutLinks from "./SignOutLinks";
-import HOCPrivateRoute from "../conteiners/HOCPrivateRoute";
-import Welcome from "./Welcome";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import Deskboards from "../conteiners/Deskboards";
-import ListsContayner from "../conteiners/ListsContayner";
+import SignInLinks from "../sign/SignInLinks";
+import SignOutLinks from "../sign/SignOutLinks";
+import HOCPrivateRoute from "../sign/HOCPrivateRoute";
+import Welcome from "../Welcome";
+import SignIn from "../sign/SignIn";
+import SignUp from "../sign/SignUp";
+import Deskboards from "../../conteiners/Deskboards";
+import ListsContayner from "../../conteiners/ListsContayner";
 
 const Navigation = ({ auth }) => {
   return (

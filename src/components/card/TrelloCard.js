@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { List, ListItem, ListItemText } from "@material-ui/core";
-import { getCardsByListKey } from "../actions/cardActions";
+import { getCardsByListKey } from "../../actions/cardActions";
 
 const TrelloCard = ({ listKey, getCards, cardLoading, cards, handleClose }) => {
   useEffect(() => {

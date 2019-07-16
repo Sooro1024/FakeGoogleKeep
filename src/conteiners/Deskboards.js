@@ -2,8 +2,8 @@ import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { Grid } from "@material-ui/core";
-import Deskboard from "../components/Deskboard";
-import CreateNewDesk from "../components/CreateNewDesk";
+import Deskboard from "../components/desk/Deskboard";
+import CreateNewDesk from "../components/desk/CreateNewDesk";
 import {
   getDeskboardsAction,
   deleteDeskAction,
